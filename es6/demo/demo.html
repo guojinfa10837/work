@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>demo</title>
+</head>
+<body>
+	<div></div>
+   <script type="text/javascript">
+	   	/*
+	   	  *let 块级作用域
+	   	  *无变量提升，没有定义的变量会报错
+	   	  *暂时性死区
+	   	  *不允许重复声明
+	   	 */
+	   	//为何要需要块级作用域
+	    /**
+	     * 1.内层的变量会覆盖外层的变量
+	     * 2.计数循环会把变量泄露导致为全局变量
+	     */
+	    /**
+	     * const 声明一个只读的常量，一旦声明，常量就不能改变
+	     */
+	    
+	    /**
+	     * ES5 只有两种声明变量的方法：var命令和function命令。ES6 除了添加let和const命令，后面章节还会提到，另外两种声明变量的方法：import命令和class命令。所以，ES6 一共有 6 种声明变量的方法。
+	     */
+	    
+	    /*
+	     * global 对象
+	     * 浏览器的顶层对象是window
+	     * node 里面的顶层对象是global,但其他环境都不支持。
+	     *
+	     * this 
+	     * 全局环境中 this会返回顶层对象，但是在es6和node模块中 this返回当前对模块
+	     * 
+	     */
+	    
+   	  //let a = 5;
+   	  if(true){
+   	  	let b = 4;
+   	  	//console.log(b);//报错
+   	  }
+   	  for(let i = 0;i<5;i++){
+   	  	//console.log(i);
+   	  }
+   	  //console.log(i);//报错
+   	  for(var j = 0;j<5;j++){
+   	  	//console.log(j);
+   	  }
+   	  //console.log(j);
+   	  var tmp = 123;
+     //暂时性死区
+	 if (true) {
+		tmp = 'abc'; // 报错 ReferenceError
+		//let tmp;
+	 }
+	 //不允许重复声明
+	 if(true){
+	 	//var a = 1;
+	 	let a = 2;
+	 	const c = 3
+	 }
+	 
+	 if(true){
+	 	//var a = 1;
+	 	//c = 4; //报错
+	 }
+	 if(true){
+	 	let a = "b";
+	 	//console.log(this);
+	 }
+	 /*
+	  * 变量的结构赋值
+	  * 1.数组的结构赋值（es6允许按照一定的模式，从数组和对象中提取值，对变量进行赋值，被称为结构）
+	  * 支持 [a,[b,c]] = ["4",["5"]] 这种写法属于匹配模式,只要两边的模式相同，左边的变量就会被赋值对应的值
+	  * set结构
+	  *  let [x,y] = new Set(["a","b"]);
+	  * 默认值
+	  *   解析结构允许指定默认值 例如：let [x,y=0] = ["a"];
+	  *
+	  * 2.对象的结构赋值
+	  * 对象的赋值和数组有一个不同，数组的元素是按次序排列的，变量的取值由它的位置决定，而对象的属性没有次序，变量必须与属性同名
+	  * 对象的结构赋值的内部机构 是先找到同名的属性，然后再赋值给对应的变量，真正赋值的是后者而不是前者let { foo: baz } = { foo: "aaa", bar: "bbb" };
+	  *对象结构也可以指定默认值 let {i = 5,j} = {j:6};
+	  * 3.字符串的结构赋值
+	  * 字符串被转换成了一个类似数组的对象,例如：let [a,b,c] = "hellow";
+	  * 4.数值和布尔值的结构赋值
+	  *  如果等号右边是数字和布尔值，则先转为对象
+	  * 5.函数的结构赋值
+	  */
+	  if(true){
+	  	//let a = 1, b=2, c =3;
+	  	let [a,[b,c]] = ["4",["5"]]; //注意 变量没有“
+	  	//console.log(a,b,c);
+	  	let [x,y] = new Set(["a","b"]);
+	  	//console.log(x,y);
+	  }
+	  //指定默认值
+	  if(true){
+         let [x,y=0] = ["a"];
+         //console.log(x,y)
+	  }
+	  //对象的结构赋值
+	  if(true){
+         let {x,y,z} = {x:"88",y:"99"};
+         //console.log(x,y,z);
+         let {a:a,b:b} = {a:"10",b:"11"};
+         //console.log(a,b);
+         let {i = 5,j} = {j:6};
+         //console.log(i,j);
+	  }
+	  //字符串的结构赋值
+	  if(true){
+	  	 let [a,b,c] = "hellow";
+	  	 //console.log(a,b,c);
+	  }
+	  //数组和布尔值的结构赋值
+	  if(true){
+	  	let {toString:s} = 123;
+	  	//console.log(s === Number.prototype.toString );
+	  	let {toString:t} = true;
+	  	//console.log(t === Boolean.prototype.toString );
+	  }
+	  //函数结构赋值
+	  if(true){
+	  	function add([x,y]) {
+	  		return x+y;
+	  	}
+	  	//console.log(add([3,4]));
+	  	//console.log([[1, 2], [3, 4]].map(([a, b]) => a + b));
+	  }
+	  /**
+	   * 字符串的扩展
+	   * 1.字符串unicode表示法
+	   * 2.codePointAt();
+	   * 3.fromCodePoint();
+	   * 4.字符串的遍历器接口
+	   * 5.normalize()
+	   * 许多欧洲语言有语调符号和重音符号。为了表示它们，Unicode 提供了两种方法。一种是直接提供带重音符号的字符，比如Ǒ（\u01D1）。另一种是提供合成符号（combining character），即原字符与重音符号的合成，两个字符合成一个字符，比如O（\u004F）和ˇ（\u030C）合成Ǒ（\u004F\u030C）。
+	   * 6.includes(),startsWith(),endsWith();
+	   * es5只有indexof方法 es6 又提供了三种方法
+	   *  includes() 返回布尔值，表示是否找到参数字符串
+	   *  startswith() 返回布尔值,表示参数字符串是否在头部
+	   *  endswith() 返回布尔值，表示参数字符串是否在尾部
+	   *7.repeat()
+	   *  repeat方法返回一个新的字符串，表示将原字符串重复n次
+	   *8.padStart()，padEnd() 引入了字符串补全长度的功能。
+	   *9.matchAll()
+	   *matchAll方法返回一个正则表达式在当前字符串的所有匹配，
+	   */
+	  //字符串的遍历器接口
+	   if(true){
+	   	  for(let i of "foo"){
+	   	  	console.log(i);
+	   	  }
+	   }
+	   if(true){
+          let a = "hello word!";
+          a.includes("o") //true;
+          a.startsWith("h")//true;
+          a.endsWith("!") //true
+	   }
+	   //repeat
+	   if (true) {
+	   	 let s = "aab";
+	   	 console.log(s.repeat(2));
+	   }
+       //padStart()，padEnd() 
+       if(true){
+       	let s = "b";
+       	 s.padStart(4,"a");
+       	 s.padEnd(5,"c");
+
+       }
+
+       /**
+        * 1.二进制和八进制表示法
+        * 2.Number.isFinite(), Number.isNaN()
+        * 3.Number.parseInt(), Number.parseFloat() 
+        *   ES6 将全局方法parseInt()和parseFloat()，移植到Number对象上面，行为完全保持不变
+        * 4.Number.isInteger() 
+        *    判断是否为整数
+        * 5.Number.EPSILON
+        *   ES6 在Number对象上面，新增一个极小的常量Number.EPSILON。根据规格，它表示 1 与大于 1 的最小浮点数之间的差 
+        * 6.安全整数和 Number.isSafeInteger()
+        *7.Math 对象的扩展
+        *  Math.trunc() 方法用于去除一个数的小数部分，返回整数部分。
+        *  Math.sign()方法用来判断一个数到底是正数、负数、还是零。对于非数值，会先将其转换为数值。
+        *  Math.cbrt()方法用于计算一个数的立方根。
+        *  Math.clz32()的整数使用 32 位二进制形式表示，Math.clz32方法返回一个数的 32 位无符号整数形式有多少个前导 0
+        *  Math.imul()方法返回两个数以 32 位带符号整数形式相乘的结果，返回的也是一个 32 位的带符号整数
+        *  Math.fround()方法返回一个数的32位单精度浮点数形式
+        *  Math.expm1()
+        *  Math.log1p()
+        *  Math.log10()
+        *  Math.log2()
+        */
+       if(true){
+       	  let b = 4;
+       	  //console.log(Number.isInteger(b));
+       	  //console.log(Number.EPSILON.toFixed(20));
+       	  console.log(Math.trunc(5.1));//5
+       	  console.log(Math.sign(5.1));//+1
+       	  console.log(Math.cbrt(5));
+       	  console.log(Math.fround(5.44444444))
+       }
+   </script>
+</body>
+</html>
