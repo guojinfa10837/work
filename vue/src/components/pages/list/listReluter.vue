@@ -1,7 +1,6 @@
 <template>
-  <el-table
+    <el-table
     :data="tableData3"
-   
     border
     style="width: 100%">
     <el-table-column
@@ -19,6 +18,8 @@
       label="地址">
     </el-table-column>
   </el-table>
+
+  
 </template>
 
 <script>
@@ -55,6 +56,14 @@
           address: '上海市普陀区金沙江路 1518 弄'
         }]
       }
+    },
+    props:{
+      name123:Object
+    },
+    mounted(){
+      
+    },
+    methods:{
     }
   }
 </script>

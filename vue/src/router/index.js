@@ -15,29 +15,33 @@ const routes = {
 		component: login
 	},
 	{
-		path: '/',
+		path: '/index',
 		name: 'index',
 		component: layout,
 		children:[
 		{
-			path: 'webCome',
+			path: '/webCome',
 			name: 'webCome',
 			component: webCome
 		},
 		{
-			path: 'list',
+			path: '/list',
 			name: 'list',
 			component: list,
 			children:[
 			{
 				path: '/listReluter',
-				name: 'listReluter',
+				name: '/listReluter',
 				component: listReluter,
 			}
 			]
 		}
 
 		]
+	},
+	{
+		path: '/',
+		redirect:'/login'
 	}
 	
 	]

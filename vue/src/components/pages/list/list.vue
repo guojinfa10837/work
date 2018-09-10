@@ -1,6 +1,7 @@
 <template>
 	<el-container class="page" >
 		<el-header height="172px">
+			<!-- <router-link to="/listReluter">123</router-link> -->
 			<el-form ref="form" :model="form" label-width="80px">
 				<el-form-item label="活动名称">
 					<el-input v-model="form.name"></el-input>
@@ -20,9 +21,10 @@
 					<el-button>重置</el-button>
 				</el-form-item>
 			</el-form>
+			
 		</el-header>
-		<el-main>
-			<router-view></router-view>
+		<el-main >
+			<router-view tag="div" :name123="form"></router-view>
 		</el-main>
 	</el-container>
 </template>
@@ -31,7 +33,7 @@
 		data() {
 			return {
 				form: {
-					name: '',
+					name: '123',
 					region: '',
 					date1: '',
 					date2: '',
@@ -46,6 +48,8 @@
 			onSubmit() {
 				//此处执行提交操作；
 				this.$router.push('/listReluter');
+				//this.$router.push({name:'/listReluter',query:this.form});
+				/*this.$router.push({ name: 'index',params:{userId:this.form.userName} });*/
 			}
 		}
 	}
