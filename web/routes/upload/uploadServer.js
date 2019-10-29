@@ -1,0 +1,113 @@
+
+  var fs = require('fs');
+  var express = require('express');
+  var multer  = require('multer');
+  let path = require('path');//test release
+  var router = express.Router();
+
+  let tempSrc=[];
+
+  //文件存放的根路径
+
+  /* 使用硬盘存储模式设置存放文件的路径已经文件名*/
+  
+
+var storage = multer.diskStorage({
+      destination:function(req,file,cb){
+         // 接收到文件后输出的保存路径（若不存在则需要创建）
+          
+         cb(null, path.resolve(__dirname,'../../public/uploads/'));  
+      },
+      filename:function(req,file,cb){
+         // 将保存文件名设置为 时间戳 + 文件原始名，比如 151342376785-123.jpg
+        let temp = file.originalname.split('.');
+        let fileName = file.fieldname + '-' + Date.now()+'.'+temp[temp.length-1];
+        tempSrc.push('http://localhost:8080/public/uploads/'+fileName);
+        cb(null,fileName); 
+       
+      }
+});
+  // 创建文件夹
+var createFolder = function(folder){
+    try{
+        // 测试 path 指定的文件或目录的用户权限,我们用来检测文件是否存在
+        // 如果文件路径不存在将会抛出错误"no such file or directory"
+        fs.accessSync(folder); 
+    }catch(e){
+        // 文件夹不存在，以同步的方式创建文件目录。
+        fs.mkdirSync(folder);
+    }  
+};
+
+var uploadFolder = path.resolve(__dirname,'../../public/uploads/');
+createFolder(uploadFolder);
+
+
+
+let uploader = {
+    storage: storage,
+    limits: {
+        fileSize: 10*1024*1024,
+        files: 3
+    },
+    fileFilter: function (req, file, cb) {
+        // The function should call `cb` with a boolean                                                                                                                                                                   
+        // to indicate if the file should be accepted
+
+        // To reject this file pass `false`, like so:
+        //cb(null, false);
+
+        // To accept the file pass `true`, like so:
+        cb(null, true);
+
+        // You can always pass an error if something goes wrong:
+        //cb(new Error('I don\'t have a clue!'))
+    }
+};
+
+
+let uploads = multer(uploader).array('file', 100);
+
+/* POST upload listing. */
+router.post('/', function(req, res, next) {
+    //var file = req.files;
+    //console.log(req, res, next);
+    uploads(req, res, function (err) {
+        console.log("req.body",req.body);
+        console.log(req.files);
+        if (err) {
+            // An error occurred when uploading
+            if(err.code==='LIMIT_FILE_SIZE'){
+                res.status(200).json({"status": "0", "msg": "文件大小超出"});
+            }
+            return
+        }
+
+        let tempArray=[];
+
+        for(let v of req.files){
+            tempArray.push({
+                data:{"oldimgname":v.originalname},
+                msg:`http://localhost:8080/public/uploads/${v.filename}`
+
+            })
+        }
+        if(req.body.mode==='bg'){
+            res.status(200).json({"status":"success","msg":"http:\/\/o7pp28l2f.bkt.clouddn.com\/topic_diy\/2019\/day_0308\/4c6f1d7a0e9c299abe6cb884c676ea4f.jpg","data":{"width":1920,"height":1280,"oldimgname":"001359d3e59cc49dae0d.jpg!1920.jpg","cutimgs":{"1":{"src":"http:\/\/o7pp28l2f.bkt.clouddn.com\/topic_diy\/2019\/day_0308\/523f95f81e0f73b5e84eb3ef92a5170b.jpg","width":1920,"height":256},"2":{"src":"http:\/\/o7pp28l2f.bkt.clouddn.com\/topic_diy\/2019\/day_0308\/757619c16b4f312550eaf4c822d6515e.jpg","width":1920,"height":256},"3":{"src":"http:\/\/o7pp28l2f.bkt.clouddn.com\/topic_diy\/2019\/day_0308\/31f86763cb8f45dbc0e83ea4f87f7cf9.jpg","width":1920,"height":256},"4":{"src":"http:\/\/o7pp28l2f.bkt.clouddn.com\/topic_diy\/2019\/day_0308\/fc64cea7825c25bc81df79b881b3de90.jpg","width":1920,"height":256},"5":{"src":"http:\/\/o7pp28l2f.bkt.clouddn.com\/topic_diy\/2019\/day_0308\/5f6e4e3847b4c239fe7ec3f0ac7290fb.jpg","width":1920,"height":256}}}});
+            return;
+        }
+
+        res.status(200).json({"status": "success","code":1,data:{ height:200,width:300,oldimgname:'abcdefg'}, "msg": tempSrc[0],"image_url":tempSrc.length<2?tempSrc[0]:tempSrc});
+        tempSrc=[];
+    });
+  /*   console.log('444',file);
+    console.log('文件类型：%s', file.mimetype);
+    console.log('原始文件名：%s', file.originalname);
+    console.log('文件大小：%s', file.size);
+    console.log('文件保存路径：%s', file.path); */
+    // 接收文件成功后返回数据给前端
+    //res.json({res_code: '0'});
+});
+
+ 
+ module.exports = router;
