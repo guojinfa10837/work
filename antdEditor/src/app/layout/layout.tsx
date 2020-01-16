@@ -7,8 +7,8 @@ import BasicRoute from './main/routerViews';
 import BasicRouteRight from './right/routerViews';
 import {HashRouter, Route, Switch, Link} from 'react-router-dom';
 
-import {UtilsService} from './util/utils.service';
-import {MainService} from './util/main.service';
+//import {UtilsService} from './util/utils.service';
+//import {MainService} from './util/main.service';
 
 
 
@@ -20,10 +20,10 @@ export interface dispatchStuff {
      dispatch: Dispatch
 }
 class LayoutDemo extends React.Component {
-  public utilTool:any =  UtilsService;
-  public utils:any = new this.utilTool();
-  public mainTool:any =  MainService;
-  public main:any = new this.mainTool();
+  //public utilTool:any =  UtilsService;
+  //public utils:any = new this.utilTool();
+ // public mainTool:any =  MainService;
+ // //public main:any = new this.mainTool();
   public routerId:number = 0;
   state = {
     collapsedLeft: false,
@@ -41,9 +41,9 @@ class LayoutDemo extends React.Component {
      console.log("页面初始化");  
      console.log(this.props);
 
-     this.main.init({
+    /*  this.main.init({
          props:(this.props as any)
-     });
+     }); */
   }
   toggleLeft = () => {
     this.setState({
@@ -68,12 +68,12 @@ class LayoutDemo extends React.Component {
      this.addListQue(viewState);
      (this.props as any).dispatch({ type:'INCREMENT',data:{type:'foot'}})
    
-     this.utils.routerComponents({
+    /*  this.utils.routerComponents({
           props:(this.props as any),
           viewState:viewState,
           compontStr:'/views/'+viewState+'/',
           id:this.routerId,
-     });
+     }); */
      this.routerId++;
   };
   render() {

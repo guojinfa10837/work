@@ -1,7 +1,7 @@
 
 import {common} from '../common/commonData';
-
-const DEFAULTS = {
+/* 
+const DEFAULTS:any = {
   cache: {},
   box: '[data-query="canvasBox"]',
   configBox: '[data-query="configBox"]',
@@ -13,12 +13,12 @@ const DEFAULTS = {
   }
 
 };
-
+ */
 export class UtilsService {
-    public options : any;   
+   // public options : any;   
    
     constructor(
-      private common:common
+      //private common:common
     ){
 
       
@@ -30,11 +30,11 @@ export class UtilsService {
      * 渲染组件路由
      */
     routerComponents(opts:any){
-      common.list = [...common.list,{name:"ee3333eee",id:"3",a:6}];
+     /*  common.list = [...common.list,{name:"ee3333eee",id:"3",a:6}];
       console.log(opts);
       opts.props.history.push({ 
          pathname: opts.compontStr+ opts.id,
-      });
+      }); */
      
     };
 
