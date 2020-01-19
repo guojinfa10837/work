@@ -6,10 +6,15 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+<<<<<<< HEAD
+//var demo = require('./routes/demo');
+var upload = require('./webSite/upload/uploadServer');
+=======
 var demo = require('./routes/demo');
 var upload = require('./website/upload/uploadServer');
+>>>>>>> 4723c366fb2b885a9930d1576817b49ec50d7cd8
 
-var test = require('./webSite/test/test');
+//var test = require('./webSite/test/test');
 var app = express();
  app.all('*', function(req, res, next) {  
   res.header("Access-Control-Allow-Origin", "*");  
@@ -32,10 +37,10 @@ app.use("/public",express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/demo', demo);
+//app.use('/demo', demo);
 
 app.use('/uploads', upload);
-app.use('/test', test);
+//app.use('/test', test);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
