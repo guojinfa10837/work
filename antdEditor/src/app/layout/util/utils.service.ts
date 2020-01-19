@@ -1,5 +1,5 @@
 
-import {common} from '../common/commonData';
+import {common,dataMap} from '../common/commonData';
 /* 
 const DEFAULTS:any = {
   cache: {},
@@ -14,14 +14,28 @@ const DEFAULTS:any = {
 
 };
  */
+
+interface option {
+  type: string;
+}
+interface conversation{
+  props:any;
+  state:Object;
+}
+interface Utils{
+  routerComponents():void;
+  addConponent():void
+}
+
 export class UtilsService {
    // public options : any;   
    
     constructor(
       //private common:common
+      private sup:conversation
     ){
-
-      
+      Object.assign(this, this.sup);
+      console.log(this);
     };
 
     
@@ -37,5 +51,11 @@ export class UtilsService {
       }); */
      
     };
-
-};
+    /**
+     * 注册组件进入视图池
+     */
+    addConponent(opts:option){
+        console.log(dataMap[opts.type]);
+        
+    };
+  };

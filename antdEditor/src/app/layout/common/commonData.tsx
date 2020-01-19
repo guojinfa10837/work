@@ -7,7 +7,11 @@ let storage = new Map();
 export default storage;
 
 interface common {
-    [propName: string]: any
+    [propName: string]: any;
+}
+
+interface dataMapType {
+    [type: string]: string
 }
 
 let common: common = {
@@ -22,11 +26,15 @@ let common: common = {
     list:[{name:"eeeee",id:"3",a:6},{name:"222",id:"3",a:6}],
     listQue:{},
     pcLink: null,//pc相关联专题
-    type: null//component type
+    
 };
-let destroyList = new Map();
+let destroyList:any = new Map();
+var dataMap:dataMapType = {};
+let ComponentMap:any =  new Map();
 export {
     common,
     destroyList,
-    storage
+    storage,
+    ComponentMap,
+    dataMap,
 }

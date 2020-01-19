@@ -7,8 +7,8 @@ import BasicRoute from './main/routerViews';
 import BasicRouteRight from './right/routerViews';
 import {HashRouter, Route, Switch, Link} from 'react-router-dom';
 
-//import {UtilsService} from './util/utils.service';
-//import {MainService} from './util/main.service';
+import {UtilsService} from './util/utils.service';
+import {MainService} from './util/main.service';
 
 
 
@@ -20,11 +20,12 @@ export interface dispatchStuff {
      dispatch: Dispatch
 }
 class LayoutDemo extends React.Component {
-  //public utilTool:any =  UtilsService;
-  //public utils:any = new this.utilTool();
- // public mainTool:any =  MainService;
- // //public main:any = new this.mainTool();
+  public utilTool:any =  UtilsService;
+  public utils:any = new this.utilTool(this);
+  public mainTool:any =  MainService;
+  public main:any = new this.mainTool();
   public routerId:number = 0;
+  
   state = {
     collapsedLeft: false,
     collapsedRight: false,
@@ -35,6 +36,7 @@ class LayoutDemo extends React.Component {
      
   ) {
     super(props); 
+  
   }
 
   componentDidMount = () =>{
@@ -56,17 +58,21 @@ class LayoutDemo extends React.Component {
     });
   };
   addListQue(str:string){
+      this.utils.addConponent({
+          type:str
+      });
       common.listQue['key'+this.routerId] = {
          type:str,
          id:this.routerId
       }
-     
+     console.log(common);
   };
   comfn = (e:any) =>{
      e.preventDefault();
      let viewState:string = e.target.id;
      this.addListQue(viewState);
-     (this.props as any).dispatch({ type:'INCREMENT',data:{type:'foot'}})
+
+   //  (this.props as any).dispatch({ type:'INCREMENT',data:{type:'foot'}})
    
     /*  this.utils.routerComponents({
           props:(this.props as any),
@@ -76,14 +82,16 @@ class LayoutDemo extends React.Component {
      }); */
      this.routerId++;
   };
+  check (){
+    console.log("changeck");
+  }
   render() {
     return (
       <Layout id="components-layout-demo-custom-trigger">
         <Sider trigger={null} collapsible collapsed={this.state.collapsedLeft}>
           <div className="logo" />
             <button id={'font'} onClick={this.comfn}>font</button>
-            <button id={'banner'} onClick={this.comfn}>banner</button>
-        
+            <button id={'banner'} onClick={this.comfn}>banner</button>        
         </Sider>
         <Layout>
           <Header style={{ background: '#fff', padding: 0 }}>
@@ -93,9 +101,11 @@ class LayoutDemo extends React.Component {
 	              onClick={this.toggleLeft}
 	            />
           </Header>
-          <Content style={{background: '#fff',minHeight: 580,}}>
-             <BasicRoute/>
-	          
+          <Content >
+            <Layout  style={{background: '#ccc',minHeight: 580,height:"100%"}}>
+              <Content>Content</Content>
+              <Sider  style={{background: '#fff'}}>Sider</Sider>
+            </Layout>
           </Content>
         </Layout>
       </Layout>
@@ -107,7 +117,7 @@ class LayoutDemo extends React.Component {
 
 
 const mapStateToProps = (state:any) =>{
-    console.log(state.data);
+    console.log(state);
     return {
         data:state.data
     }
@@ -124,6 +134,6 @@ const mapDispatchToProps = ({dispatch}:{dispatch:Dispatch}):any=>{
 
 
 
-export default connect()(LayoutDemo);
+export default connect(mapStateToProps,mapDispatchToProps)(LayoutDemo);
 
 

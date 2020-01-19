@@ -9,15 +9,17 @@ import { Provider } from 'react-redux';
 
 import rootReducer from './reducers';
 
+import {RegisterService} from './app/layout/common/register';
 
 
+new RegisterService();
 
 // 1、创建 store
 const store = createStore(rootReducer);
 // 可以手动订阅更新，也可以事件绑定到视图层。
 store.subscribe(() =>{
-  console.log(store.getState());
-  console.log(store);
+  //console.log(store.getState());
+  //console.log(store);
 });
 
 ReactDOM.render(
