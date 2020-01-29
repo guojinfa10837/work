@@ -3,19 +3,28 @@ import { Layout, Menu, Icon } from 'antd';
 import { connect } from 'react-redux';
 
 
-class editorView extends React.Component {
+class EditorView extends React.Component {
     constructor ( 
         props:any = {}
         
      ) {
        super(props); 
+       console.log(this.props);
     };
     render() {
+        
+        
+        console.log(this.props);
          return (<React.Fragment>
-             <div>5555</div>
+             <div>我今天很无聊啊  有意义 的事情在哪里</div>
              <div>5555</div>
          </React.Fragment>);
     }
 }
-
-export default connect()(editorView);
+const mapStateToProps = (state:any) =>{
+    console.log(state);
+    return {
+        listQue:state.listQue
+    }
+}
+export default connect(mapStateToProps)(EditorView);

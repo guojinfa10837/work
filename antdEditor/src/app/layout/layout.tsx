@@ -9,7 +9,7 @@ import {HashRouter, Route, Switch, Link} from 'react-router-dom';
 
 import {UtilsService} from './util/utils.service';
 import {MainService} from './util/main.service';
-
+import EditorView from './editorView/editorView';
 
 
 import {common} from './common/commonData';
@@ -103,7 +103,9 @@ class LayoutDemo extends React.Component {
           </Header>
           <Content >
             <Layout  style={{background: '#ccc',minHeight: 580,height:"100%"}}>
-              <Content>Content</Content>
+              <Content>
+                 <EditorView/>
+              </Content>
               <Sider  style={{background: '#fff'}}>Sider</Sider>
             </Layout>
           </Content>

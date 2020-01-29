@@ -8,7 +8,7 @@ export class MainService {
     //public utilTool:any = new UtilsService;
     //public utils:any = new this.utilTool();
     constructor(
-     // private common:common
+       private common:common
     ){
 
       
