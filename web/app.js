@@ -12,6 +12,8 @@ var liuziUnmAndSimg = require('./website/liuziUnmAndSImg/liuziUnmAndSImg');
 var getSiginList = require('./website/liuziUnmAndSImg/getSiginList');
 var ApiWareList = require('./website/liuziUnmAndSImg/ApiWareList');
 
+var save = require('./website/videoTree/save');
+
 //var test = require('./webSite/test/test');
 var app = express();
  //app.all('*', function(req, res, next) {  
@@ -50,6 +52,8 @@ app.use('/users', usersRouter);
 app.use('/liuziNumAndSimg', liuziUnmAndSimg);
 app.use('/getSiginList', getSiginList);
 app.use('/ApiWareList', ApiWareList);
+
+app.use('/save', save);
 
 app.use('/uploads', upload);
 //app.use('/test', test);
