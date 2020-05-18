@@ -1,5 +1,4 @@
 var express = require('express');
-var fs = request('fs');
 var router = express.Router();
 
 //引入request模块

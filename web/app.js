@@ -12,6 +12,8 @@ var liuziUnmAndSimg = require('./website/liuziUnmAndSImg/liuziUnmAndSImg');
 var getSiginList = require('./website/liuziUnmAndSImg/getSiginList');
 var ApiWareList = require('./website/liuziUnmAndSImg/ApiWareList');
 
+var stategrid = require('./website/stategrid/index');
+
 var save = require('./website/videoTree/save');
 
 //var test = require('./webSite/test/test');
@@ -56,6 +58,8 @@ app.use('/ApiWareList', ApiWareList);
 app.use('/save', save);
 
 app.use('/uploads', upload);
+
+app.use('/stategrid', stategrid);
 //app.use('/test', test);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
