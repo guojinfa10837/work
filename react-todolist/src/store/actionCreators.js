@@ -7,7 +7,6 @@ export const getdeleItemActionCreator = (index)=>({
     type:DELE_LIST_ITEM,
     index
 })
-export const gethanldSubmitActionCreator = (val)=>({
-    type:ADD_LIST_ITEM,
-    inputValue:val
+export const gethanldSubmitActionCreator = ()=>({
+    type:ADD_LIST_ITEM
 })

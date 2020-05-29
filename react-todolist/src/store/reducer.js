@@ -12,8 +12,10 @@ export default (state = defaultState,action) =>{
     };
     if(action.type == ADD_LIST_ITEM){
         const newState = JSON.parse(JSON.stringify(state)) //js深拷贝
-        newState.list = [...newState.list,action.inputValue]
+        console.log(newState);
+        newState.list = [...newState.list,newState.inputValue]
         newState.inputValue = '';
+        console.log(newState);
         return newState;
     };
     if(action.type == DELE_LIST_ITEM){

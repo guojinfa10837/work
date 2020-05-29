@@ -1,6 +1,7 @@
 import React from 'react';
-import { Input ,Button,List} from 'antd';
+
 import store from './store';
+import TodolistUI from './todolistUI'
 import {gethanldChangeActionCreator,getdeleItemActionCreator,gethanldSubmitActionCreator} from './store/actionCreators'
 
 class App extends React.Component {
@@ -9,7 +10,8 @@ class App extends React.Component {
     this.state = store.getState();
     this.hanldStoreChange = this.hanldStoreChange.bind(this);
     this.hanldChange = this.hanldChange.bind(this);
-    this.hanldSubmit = this.hanldSubmit.bind(this)
+    this.hanldSubmit = this.hanldSubmit.bind(this);
+    this.deleItem = this.deleItem.bind(this);
     store.subscribe(this.hanldStoreChange);
   }
   hanldStoreChange(){
@@ -18,8 +20,8 @@ class App extends React.Component {
   setDispatch(action){
     store.dispatch(action);
   }
-  hanldSubmit(){
-    const action = gethanldSubmitActionCreator(this.state.inputValue);
+  hanldSubmit=()=>{
+    const action = gethanldSubmitActionCreator();
     this.setDispatch(action);
   };
   hanldChange(e){
@@ -31,30 +33,13 @@ class App extends React.Component {
     this.setDispatch(action);
   }
   render(){
-    return (
-         <div style={{margin:'10px'}}>
-           <div >
-              <Input placeholder="todo info" 
-                style={{width:"300px",marginRight:'10px'}}
-                value = {this.state.inputValue}
-                onChange = {this.hanldChange}
-              />
-              <Button type="primary" onClick={this.hanldSubmit}>提交</Button>
-           </div>
-           <List
-              style={{width:"300px",marginTop:'10px'}}
-              bordered
-              dataSource={this.state.list}
-              renderItem={(item,index) => (
-                <List.Item 
-                onClick = {this.deleItem.bind(this,index)}
-                >
-                     {item}
-                </List.Item>
-              )}
-            />
-         </div>
-    );
+    return <TodolistUI
+           inputValue ={this.state.inputValue}
+           list ={this.state.list}
+           hanldChange={this.hanldChange}
+           hanldSubmit={this.hanldSubmit}
+           deleItem={this.deleItem}
+     />;
   }
 }
 
