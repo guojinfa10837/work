@@ -1,69 +1,59 @@
 import React from 'react';
-import Item from './item'
+import { Input ,Button,List} from 'antd';
+import store from './store';
+import {gethanldChangeActionCreator,getdeleItemActionCreator,gethanldSubmitActionCreator} from './store/actionCreators'
+
 class App extends React.Component {
   constructor(props){
     super(props);
-    this.state = {
-      inputVal:'',
-      list:[]
-    }
-    this.hanldDel = this.hanldDel.bind(this);
+    this.state = store.getState();
+    this.hanldStoreChange = this.hanldStoreChange.bind(this);
+    this.hanldChange = this.hanldChange.bind(this);
+    this.hanldSubmit = this.hanldSubmit.bind(this)
+    store.subscribe(this.hanldStoreChange);
   }
-  hanldChangeVal(e){
-    let inputVal = e.target.value;
-    this.setState(()=>({
-      inputVal
-    }))
+  hanldStoreChange(){
+    this.setState(store.getState());
+  }
+  setDispatch(action){
+    store.dispatch(action);
   }
   hanldSubmit(){
-     
-     this.setState((prevState)=>{
-        return {
-          inputVal:'',
-          list: [...prevState.list,prevState.inputVal]
-        }
-     });
+    const action = gethanldSubmitActionCreator(this.state.inputValue);
+    this.setDispatch(action);
+  };
+  hanldChange(e){
+    const action = gethanldChangeActionCreator(e.target.value);
+    this.setDispatch(action);
   }
-  hanldDel(index){
-     this.setState((prevState)=>{
-      let list = [...prevState.list];
-      list.splice(index,1);
-      return {
-         list
-      }
-     })
-  }
-  getItem(){
-    return (
-      this.state.list.map((item,index)=>{
-        return(
-          <React.Fragment key={index}>
-            <Item
-               content={item}
-               index={index}
-               delItem = {this.hanldDel}
-            />
-            {/* <li
-            key={index}
-            onClick={this.hanldDel.bind(this,index)}>{item}</li>*/}
-          </React.Fragment>
-       
-        )
-      })
-    )
+  deleItem(index){
+    const action = getdeleItemActionCreator(index);
+    this.setDispatch(action);
   }
   render(){
-    const state = this.state;
     return (
-        <React.Fragment>
-          <div>
-             <input type="text" value = {state.inputVal} onChange={this.hanldChangeVal.bind(this)} />
-             <button onClick={this.hanldSubmit.bind(this)}>提交</button>
-          </div>
-          <ul>
-            {this.getItem()}
-          </ul>
-        </React.Fragment>
+         <div style={{margin:'10px'}}>
+           <div >
+              <Input placeholder="todo info" 
+                style={{width:"300px",marginRight:'10px'}}
+                value = {this.state.inputValue}
+                onChange = {this.hanldChange}
+              />
+              <Button type="primary" onClick={this.hanldSubmit}>提交</Button>
+           </div>
+           <List
+              style={{width:"300px",marginTop:'10px'}}
+              bordered
+              dataSource={this.state.list}
+              renderItem={(item,index) => (
+                <List.Item 
+                onClick = {this.deleItem.bind(this,index)}
+                >
+                     {item}
+                </List.Item>
+              )}
+            />
+         </div>
     );
   }
 }
