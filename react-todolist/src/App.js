@@ -1,8 +1,7 @@
 import React from 'react';
-
 import store from './store';
-import TodolistUI from './todolistUI'
-import {gethanldChangeActionCreator,getdeleItemActionCreator,gethanldSubmitActionCreator} from './store/actionCreators'
+import TodolistUI from './todolistUI';
+import {getinitListActionCreator,gethanldChangeActionCreator,getdeleItemActionCreator,gethanldSubmitActionCreator} from './store/actionCreators'
 
 class App extends React.Component {
   constructor(props){
@@ -13,6 +12,15 @@ class App extends React.Component {
     this.hanldSubmit = this.hanldSubmit.bind(this);
     this.deleItem = this.deleItem.bind(this);
     store.subscribe(this.hanldStoreChange);
+  }
+  componentDidMount(){
+    //const data = {"data":["1","3"]};
+    //const action = getinitActionCreator(data.data);
+    const action = getinitListActionCreator();
+    this.setDispatch(action);
+    /* axios.get('./list.json').then((res)=>{
+        console.log(res)
+    }).catch() */
   }
   hanldStoreChange(){
     this.setState(store.getState());
@@ -39,7 +47,7 @@ class App extends React.Component {
            hanldChange={this.hanldChange}
            hanldSubmit={this.hanldSubmit}
            deleItem={this.deleItem}
-     />;
+          />
   }
 }
 
