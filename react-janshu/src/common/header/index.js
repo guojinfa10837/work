@@ -3,7 +3,7 @@ import React from 'react';
 import { CSSTransition } from 'react-transition-group';
 import {connect} from 'react-redux';
 import {HeaderWrap,Log,Nav,NavItem,NavSearch,Addition,Button,SearchWrap} from './style';
-import {HEAD_SEARCH_BLURED,HEAD_SEARCH_FOCUSED} from '../../store/actionTypes';
+import {actionCreators} from './store'
 const Header = (props)=>{
     const {focused,handleInputFocus,handleInputBlur} = props;
     return (
@@ -39,24 +39,16 @@ const Header = (props)=>{
 
 const mapSateToProps  = (state)=>{
     return {
-        focused:state.focused || false
+        focused:state.getIn(['header','focused']) || false
     }
 };
 const mapDisPathToProps = (dispatch )=>{
     return {
         handleInputFocus(){
-           
-           const action ={
-               type:HEAD_SEARCH_FOCUSED
-           }
-           dispatch(action);
-           console.log(action);
+           dispatch(actionCreators.searchFocus());
         },
         handleInputBlur(){
-            const action ={
-                type:HEAD_SEARCH_BLURED
-            }
-            dispatch(action);
+            dispatch(actionCreators.searchBlur());
         }
     }
 }
