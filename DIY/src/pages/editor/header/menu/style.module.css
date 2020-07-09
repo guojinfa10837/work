@@ -1,0 +1,28 @@
+.menu{
+    float: left;
+    height: 100%;
+}
+.textBtn{
+    width:40px;
+    padding-top:15px;
+    font-size:14px;
+    color:#fff;
+    height: 100%;
+    cursor: pointer;
+}
+.textBtn i ,.textBtn span{
+    display: block;
+    cursor: pointer;
+}
+.textBtn i {
+  
+    height: 20px;
+    text-align: center;
+    line-height: 20px;
+}
+.textBtn span{
+    width: 40px;
+    height: 20px;
+    text-align: center;
+    line-height: 20px;
+}

@@ -48,47 +48,15 @@ input:focus,select:focus,textarea:focus {
 	padding:0;
 	margin:0
 }
-.Wrap,body,html{
-	width:100%;
-	height: 100%;
+#root{width:100%;
+	height: 100%;}
 
-}
-.Wrap{
-	position:relative;
-}
 *{
 	padding:0;
 	margin:0;
 }
-.wrap{
-	position: relative;
-}
-.calipersWrap{
-	position: absolute;
-	left: 0;
-	top:0;
-	z-index: 0;
-	width:100%;
-	height: 100%;
-}
-.calipers{
-	background:#ccc;
-   
-}
-.editorWrap{
-	width:1000px;
-	height: 500px;
-	margin:20px  auto 0 auto;
-}
-.cavasWrap{
-  position: absolute;
-	z-index: 1;
-}
-.cavas{
-	position: absolute;
-}
 .componentsWrap{
-	width:1000px;
+	
 	height: auto;
 	position: absolute;
 	z-index: 2;
@@ -96,12 +64,11 @@ input:focus,select:focus,textarea:focus {
 .componentsWrap .item{
 	width:150px;
 	height: 150px;
-	background:yellow;
+	background:#ddd;
 	position: absolute;
 	left: 0;
 	top:0;
 }
-
 .resizeWrap >span{
 	position: absolute;
 

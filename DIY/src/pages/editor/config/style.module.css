@@ -1,0 +1,38 @@
+.configWrap{
+    width: 260px;
+    height: 500px;
+    position: absolute;
+    z-index: 9;
+    top:70px;
+    left:30px;
+    background:#76838f;
+    border-radius: 3px;
+    overflow: hidden;
+    box-shadow: 2px 2px 12px 4px rgba(51,51,102,.3);
+}
+.configWrap.show{
+    display: block;
+}
+.configWrap.hide{
+    display: none;
+}
+.configWrap .header{
+   width:100%;
+   height: 30px;
+   line-height: 30px;
+   font-size: 14px;
+   background:#001529;
+   color:#fff;
+   position: relative;
+   padding:0 10px;
+}
+.configWrap .header i{
+    width:20px;
+    height: 20px;
+    display: block;
+    position: absolute;
+    right: 10px;
+    top:5px;
+    line-height: 20px;
+    cursor: pointer;
+}

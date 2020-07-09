@@ -1,14 +1,12 @@
 import React from 'react';
-import Header from './common/header';
-import Edtor from './pages/editor';
 import {Provider} from 'react-redux';
+import Router from './router'
 import store from './store'
-
+import 'antd/dist/antd.css';
 function App() {
   return (
     <Provider store = {store}>
-       <Header/>
-       <Edtor/>
+       <Router/>
     </Provider>
      
   );

@@ -5,7 +5,7 @@
 </head>
 <body>
 	<div></div>
-   <script type="text/javascript">
+  <!--  <script type="text/javascript">
 	   	/*
 	   	  *let 块级作用域
 	   	  *无变量提升，没有定义的变量会报错
@@ -206,6 +206,27 @@
 	   }
 	   
 	   
-   </script>
+   </script> -->
+
+    <script>
+		var setPromis = ()=>{
+
+		}
+
+		const promise = new Promise(function(resolve,reject){
+
+		});
+
+		function timeout(ms){
+			return new Promise((resolve,reject)=>{
+				setTimeout(resolve,ms,'done')
+			})
+		}
+		timeout(1000).then(value=>{
+			console.log(value);
+		},()=>{
+			console.log('err');
+		})
+	</script>
 </body>
 </html>

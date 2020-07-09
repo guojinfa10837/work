@@ -1,0 +1,32 @@
+.viewControlWrap{
+    position: relative;
+    width:100%;
+    height: 100%;
+}
+.calipersWrap{
+	position: absolute;
+	left: 0;
+	top:0;
+	z-index: 0;
+	width:100%;
+	height: 100%;
+}
+.calipers{
+	background:transparent;
+   
+}
+.editorWrap{
+	width:1000px;
+	height: 100%;
+    margin:20px  auto 0 auto;
+    border:1px solid #ccc;
+}
+.cavasWrap{
+  position: absolute;
+	z-index: 1;
+}
+.cavas{
+	position: absolute;
+}
+
+
