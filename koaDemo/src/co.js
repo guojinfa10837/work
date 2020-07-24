@@ -1,0 +1,9 @@
+const co = require('co')
+const fetch = require('node-fetch')
+co(function *(){
+     const res = yield fetch('https://api.douban.com/v2/movie/1291843')
+     const movie = yield res.json()
+     console.log(movie);
+     const summary = movie.summary;
+     console.log(summary);
+})
