@@ -1,3 +1,7 @@
+
+/**
+ * 请使用最新的node
+*/
 const puppeteer = require('puppeteer');
 const url = 'https://movie.douban.com/tv/#!type=tv&tag=%E7%83%AD%E9%97%A8&sort=recommend&page_limit=20&page_start=0'
 
@@ -28,15 +32,16 @@ const sleep = time => new Promise(resolve=>{
 
     const result = await page.evaluate(()=>{
         var $ = window.$;
-        var items = $('.list-wp > a')
+        var items = $('.list  .item')
         var links = [];
         if(items.length >= 1){
-            items.each((v,i)=>{
-                let item = $(v);
+            items.each((inx,it)=>{
+                let item = $(it);
+                let id = item.find(".cover-wp").attr('data-id')
                 let obj = {
-                    id:item.find(".cover-wp").data('id'),
-                    title:item.find('p').text(),
-                    poster :item.find("img").attr("src")
+                    id:id,
+                    title:item.find('p').text()||'dddd',
+                    poster :item.find(".cover-wp > img").attr("src")
                 }
                 links.push(obj);
             })
@@ -45,6 +50,8 @@ const sleep = time => new Promise(resolve=>{
     })
 
     await browser.close();
-    console.log(result);
+
+    process.send({result})  //将爬取的数据发送给子进程
+    process.exit(0)//退出进程  并返回给子进程
 
 })()
