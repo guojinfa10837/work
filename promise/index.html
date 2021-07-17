@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=<device-width>, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <script>
+     var PENDING = 'pending';
+     var FULFILLED = 'fulfilled';
+     var REJECTED = 'rejected';
+     var MyPromise = function(executor){
+        var _this = this;
+        this.state = PENDING;
+        this.value = null;
+        this.reason = null;
+        this.onFulFilledCallback = [];
+        this.onRejectedCallback = [];
+        this.resolve= function(value) {
+            if(_this.state === PENDING){
+                _this.state = FULFILLED;
+                _this.value = value;
+                _this.onFulFilledCallback.forEach(function(fulfilledCallback) {
+                    fulfilledCallback();
+                });
+            }
+        }
+
+        this.reject = function(reason) {
+            if(_this.state === PENDING){
+                _this.state = FULFILLED;
+                _this.reason = reason;
+                _this.onRejectedCallback.forEach(function(rejectedCallback) {
+                    rejectedCallback();
+                });
+            }
+        }
+
+        try{
+            executor(this.resolve,this.reject)
+        }catch(reason){
+            this.reject(reason)
+        }
+     }
+     //重置resolve
+     MyPromise.prototype.resolvePromise = function(promise2,x,resolve,reject){
+        var _this = this;
+        var called = false;//防止多次调用
+        if(promise2 == x){
+            return reject(new TypeError('循环引用'));
+        };
+
+        if(x !== null && (Object.prototype.toString.call(x) === '[object Object]' || Object.prototype.toString.call(x) === '[object Function]')){
+            try{
+                var then = x.then;
+                if(typeof then == 'function' ){
+                    then.call(x,function(y){
+                        // 别人的Promise的then方法可能设置了getter等，使用called防止多次调用then方法
+                        if(called) return;
+                        called = true;
+                        //成功值y有可能还是promise或者是具有then方法等，再次resolvePromise，直到成功值为基本类型或者非thenable
+                        _this.resolvePromise(promise2, y, resolve, reject);
+                    },function(reason){
+                        if(called) return;
+                        called = true;
+                        reject(reason)
+                    })
+                }else{
+                    if(called) return;
+                    called = true;
+                    resolve(x);
+                }
+            }catch(reason){
+                if(called) return;
+                called = true;
+                reject(reason)
+            }
+        }else{
+            // x是普通值，直接resolve
+            resolve(x);
+        }
+     }
+     MyPromise.prototype.then = function(onFuifilled,onRejected){
+        var _this = this;
+        var promise2 = null;
+        promise2 = new MyPromise(function(resolve,reject){
+            if(_this.state === PENDING){
+                _this.onFulFilledCallback.push(function(){
+                    try {
+                        var x = onFuifilled(_this.value);
+                        _this.resolvePromise(promise2,x,resolve,reject);
+                    }catch(reason){
+                        reject(reason)
+                    }
+                   
+                });
+                _this.onRejectedCallback.push(function(){
+                    try {
+                        var x = onRejected(_this.reason);
+                        _this.resolvePromise(promise2,x,resolve,reject);
+                    }catch(reason){
+                        reject(reason)
+                    }
+                })
+           }
+
+           if(_this.state === FULFILLED){
+                try {
+                    var x = onFuifilled(_this.value)
+                    _this.resolvePromise(promise2,x,resolve,reject);
+                }catch(reason){
+                    reject(reason)
+                }
+           }
+            if(_this.state === REJECTED){
+                try {
+                    var x = onRejected(_this.reason);
+                    _this.resolvePromise(promise2,x,resolve,reject);
+                }catch(reason){
+                    reject(reason)
+                }
+            }
+        });
+        return promise2;
+     }
+     MyPromise.all = function(promises){
+         var _this = this;
+         return new MyPromise(function(resolve,reject){
+           if(Object.prototype.toString.call(promises) === '[object Array]'){ //判断数组
+              var count = 0;
+              var newValues = []; //创建新的结果参数数组 伪数组
+              for(var i=0;i<promises.length;i++){
+                  (function(inx){
+                    //运行每一个promis
+                    promises[inx].then(function(reslut){
+                        newValues[inx] = reslut;
+                        if(++count === promises.length){ // 数据接收完成
+                            return resolve(newValues);
+                        }
+                    },function(reason){
+                        reject(reason)
+                    })
+                  })(i)
+              }
+           }else{
+               reject(new TypeError('arguments must be Array'))
+           }
+         })
+     }
+
+    var p = new MyPromise(function(resolve,reject){
+        setTimeout(function(){
+            console.log('zhix');
+            resolve('123')
+        },3000)
+    }).then(function(state){
+        return {
+            a:state
+        }
+    }).then(function(state){
+        return state
+    });
+
+
+    var p1 = new MyPromise(function(resolve,reject){
+        setTimeout(function(){
+            console.log('p2');
+            resolve('33333')
+        },3000)
+    }).then(function(state){
+        return {
+            a:state
+        }
+    });
+
+
+   
+
+    MyPromise.all([p,p1]).then(function(state){
+        console.log('all',state);
+    })
+    </script>
+</body>
+</html>
