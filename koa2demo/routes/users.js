@@ -13,10 +13,10 @@ router.get('/bar', function (ctx, next) {
 })
 
 router.post('/addPerson', async function(ctx,next){
-   global.console.log('start',ctx.request.body)
+   global.console.log('start',ctx.request.body);
    const person = new Person({
-     name:ctx.request.body.name,
-     age:ctx.request.body.age,
+     name:ctx.request.body.name ||"guojinfa",
+     age:ctx.request.body.age || 19,
    })
    let code = 0
    try{
